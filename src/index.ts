@@ -1,6 +1,7 @@
 import { httpServer } from "./http_server/index";
 import "dotenv/config";
 import { WebSocket, WebSocketServer, createWebSocketStream, Server } from "ws";
+import { handler } from "./handler";
 
 
 const HTTP_PORT = Number(process.env.HTTP_PORT) || 8181;
@@ -12,12 +13,13 @@ httpServer.listen(HTTP_PORT);
 const wsServer = new WebSocketServer({ port: WSS_PORT }, () => console.log(`Start web socket server on the ${WSS_PORT} port!`));
 
 const onConnect = (wsClient: WebSocket) => {
-  const duplex = createWebSocketStream(wsClient);
-  // console.log(duplex);
+  console.log('App ready to work');
+  const duplex = createWebSocketStream(wsClient, { encoding: 'utf-8', decodeStrings: false });
+  handler(duplex);  
 
   wsClient.on('close', () => {    
     duplex.destroy();
-    console.log('Web socket server closed \n');
+    console.log('Duplex stream closed \n');
   })
 }
 
@@ -31,7 +33,7 @@ const exitApp = (wss: Server<WebSocket>) => {
   console.log('Web socket server closed \n');
 }
 
-wsServer.on('connection', onConnect);
+wsServer.on('connection',  onConnect);
 
 process.on('SIGINT', () => {
   process.exit();
