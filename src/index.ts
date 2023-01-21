@@ -7,10 +7,10 @@ import { handler } from "./handler";
 const HTTP_PORT = Number(process.env.HTTP_PORT) || 8181;
 const WSS_PORT = Number(process.env.WSS_PORT) || 8080;
 
-console.log(`Start static http server on the ${HTTP_PORT} port!`);
+console.log(`Start static http server on http://localhost:${HTTP_PORT} !`);
 httpServer.listen(HTTP_PORT);
 
-const wsServer = new WebSocketServer({ port: WSS_PORT }, () => console.log(`Start web socket server on the ${WSS_PORT} port!`));
+const wsServer = new WebSocketServer({ port: WSS_PORT }, () => console.log(`Start web socket server on ws://localhost:${WSS_PORT} !`));
 
 const onConnect = (wsClient: WebSocket) => {
   console.log('App ready to work');
