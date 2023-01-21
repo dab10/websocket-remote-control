@@ -1,4 +1,3 @@
-import { createReadStream } from "fs";
 import internal from "stream";
 import { draw } from "./draw";
 import { mouseAction } from "./mouse";

@@ -23,7 +23,7 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     await mouse.move(arrPoints);
     await mouse.releaseButton(Button.LEFT);
     duplex.write(chunk);
-    console.log(`Done: ${chunk} px`);
+    return console.log(`Done: ${chunk} px`);
   }
 
   if (typeOfAction === 'rectangle') {
@@ -32,24 +32,24 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     const x0 = startPosition.x;
     const y0 = startPosition.y;
     let i = 0;
-    while (i <= +length) {
+    while (i < +length) {
       arrPoints.push(new Point(x0 + i, y0))
-      i = i + 0.5;
+      i = i + 1;
     }
     i = 0;
-    while (i <= +width) {
+    while (i < +width) {
       arrPoints.push(new Point(+length + x0, y0 + i))
-      i = i + 0.5;
+      i = i + 1;
     }
     i = 0;
-    while (i <= +length) {
+    while (i < +length) {
       arrPoints.push(new Point(+length + x0 - i, +width + y0))
-      i = i + 0.5;
+      i = i + 1;
     }
     i = 0;
-    while (i <= +width) {
+    while (i < +width) {
       arrPoints.push(new Point(x0, +width + y0 - i))
-      i = i + 0.5;
+      i = i + 1;
     }
 
     mouse.config.mouseSpeed = 500
@@ -57,7 +57,7 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     await mouse.move(arrPoints);
     await mouse.releaseButton(Button.LEFT);
     duplex.write(chunk);
-    console.log(`Done: ${chunk} px`);
+    return console.log(`Done: ${chunk} px`);
   }
 
   if (typeOfAction === 'square') {
@@ -66,24 +66,24 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     const x0 = startPosition.x;
     const y0 = startPosition.y;
     let i = 0;
-    while (i <= +width) {
+    while (i < +width) {
       arrPoints.push(new Point(x0 + i, y0))
-      i = i + 0.5;
+      i = i + 1;
     }
     i = 0;
-    while (i <= +width) {
+    while (i < +width) {
       arrPoints.push(new Point(+width + x0, y0 + i))
-      i = i + 0.5;
+      i = i + 1;
     }
     i = 0;
-    while (i <= +width) {
+    while (i < +width) {
       arrPoints.push(new Point(+width + x0 - i, +width + y0))
-      i = i + 0.5;
+      i = i + 1;
     }
     i = 0;
-    while (i <= +width) {
+    while (i < +width) {
       arrPoints.push(new Point(x0, +width + y0 - i))
-      i = i + 0.5;
+      i = i + 1;
     }
 
     mouse.config.mouseSpeed = 500
@@ -91,6 +91,8 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     await mouse.move(arrPoints);
     await mouse.releaseButton(Button.LEFT);
     duplex.write(chunk);
-    console.log(`Done: ${chunk} px`);
+    return console.log(`Done: ${chunk} px`);
+  } else {
+    return console.log('Unknown command from front')
   }
 }
