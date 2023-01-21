@@ -1,8 +1,11 @@
-import { mouse, Button, Point } from "@nut-tree/nut-js";
+import { mouse, Button, Point, screen } from "@nut-tree/nut-js";
 import internal from "stream";
 
 export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction: string, value: string[]) => {
   const [width, length] = value;
+  const screenWidth = await screen.width();
+  const screenHeight = await screen.height();
+
 
   if (typeOfAction === 'circle') {
     const r = +width;
@@ -10,10 +13,16 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     const startPosition = await mouse.getPosition()
     const x0 = startPosition.x;
     const y0 = startPosition.y;
+    console.log(x0, y0, screenWidth, screenHeight)
+    console.log(x0 > screenWidth)
+  
+    if (x0 + 2 * r > (screenWidth - 1) || y0 + r > (screenHeight - 1) || y0 - r < 0 || x0 < 0) {
+      return console.log('Out of boundaries of screen. Please move mouse another position');
+    }
 
-    for (let i = 0; i <= 360; i = i + 0.5) {
+    for (let i = -180; i <= 180; i = i + 0.5) {
       const rad = i / 180 * Math.PI;
-      const x = r * Math.cos(rad) + x0 - r;
+      const x = r * Math.cos(rad) + x0 + r;
       const y = r * Math.sin(rad) + y0;
       arrPoints.push(new Point(x, y))
     }
@@ -31,23 +40,28 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     const startPosition = await mouse.getPosition()
     const x0 = startPosition.x;
     const y0 = startPosition.y;
+
+    if (x0 + +length > (screenWidth - 1) || y0 + +width > (screenHeight - 1) || y0  < 0 || x0  < 0) {
+      return console.log('Out of boundaries of screen. Please move mouse another position');
+    }
+
     let i = 0;
-    while (i < +length) {
+    while (i <= +length) {
       arrPoints.push(new Point(x0 + i, y0))
       i = i + 1;
     }
     i = 0;
-    while (i < +width) {
+    while (i <= +width) {
       arrPoints.push(new Point(+length + x0, y0 + i))
       i = i + 1;
     }
     i = 0;
-    while (i < +length) {
+    while (i <= +length) {
       arrPoints.push(new Point(+length + x0 - i, +width + y0))
       i = i + 1;
     }
     i = 0;
-    while (i < +width) {
+    while (i <= +width) {
       arrPoints.push(new Point(x0, +width + y0 - i))
       i = i + 1;
     }
@@ -65,6 +79,11 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     const startPosition = await mouse.getPosition()
     const x0 = startPosition.x;
     const y0 = startPosition.y;
+
+    if (x0 + +width > (screenWidth - 1) || y0 + +width > (screenHeight - 1) || y0  < 0 || x0  < 0) {
+      return console.log('Out of boundaries of screen. Please move mouse another position');
+    }
+
     let i = 0;
     while (i < +width) {
       arrPoints.push(new Point(x0 + i, y0))
