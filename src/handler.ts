@@ -19,7 +19,7 @@ export const handler = (duplex: internal.Duplex) => {
     } else if (typeOfCommand === 'draw') {
       await draw(duplex, chunk, typeOfAction, value)
     } else if (typeOfCommand === 'prnt') {
-      await printScreen(typeOfAction, value)
+      await printScreen(duplex, chunk)
     } else {
       console.log('Unknown command from front')
     }
