@@ -14,8 +14,8 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
       const r = width;
       const arrPoints = [];
       const startPosition = await mouse.getPosition()
-      const x0 = startPosition.x;
-      const y0 = startPosition.y;
+      const x0 = startPosition.x + 1;
+      const y0 = startPosition.y + 1;
     
       if (x0 + 2 * r > (screenWidth - 1) || y0 + r > (screenHeight - 1) || y0 - r < 0 || x0 < 0) {
         return console.log('Error: Out of boundaries of screen. Please move mouse another position');
@@ -39,8 +39,8 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     if (typeOfAction === 'rectangle') {
       const arrPoints: Point[] = [];
       const startPosition = await mouse.getPosition()
-      const x0 = startPosition.x;
-      const y0 = startPosition.y;
+      const x0 = startPosition.x + 1;
+      const y0 = startPosition.y + 1;
   
       if (x0 + length > (screenWidth - 1) || y0 + width > (screenHeight - 1) || y0  < 0 || x0  < 0) {
         return console.log('Error: Out of boundaries of screen. Please move mouse another position');
@@ -78,30 +78,30 @@ export const draw = async (duplex: internal.Duplex, chunk: string, typeOfAction:
     if (typeOfAction === 'square') {
       const arrPoints: Point[] = [];
       const startPosition = await mouse.getPosition()
-      const x0 = startPosition.x;
-      const y0 = startPosition.y;
+      const x0 = startPosition.x + 1;
+      const y0 = startPosition.y + 1;
   
       if (x0 + width > (screenWidth - 1) || y0 + width > (screenHeight - 1) || y0  < 0 || x0  < 0) {
         return console.log('Error: Out of boundaries of screen. Please move mouse another position');
       }
   
       let i = 0;
-      while (i < width) {
+      while (i <= width) {
         arrPoints.push(new Point(x0 + i, y0))
         i = i + 1;
       }
       i = 0;
-      while (i < width) {
+      while (i <= width) {
         arrPoints.push(new Point(width + x0, y0 + i))
         i = i + 1;
       }
       i = 0;
-      while (i < width) {
+      while (i <= width) {
         arrPoints.push(new Point(width + x0 - i, width + y0))
         i = i + 1;
       }
       i = 0;
-      while (i < width) {
+      while (i <= width) {
         arrPoints.push(new Point(x0, width + y0 - i))
         i = i + 1;
       }
